@@ -1,4 +1,5 @@
 import merge from 'deepmerge';
+import cpy from 'rollup-plugin-copy';
 // use createSpaConfig for bundling a Single Page App
 import { createSpaConfig } from '@open-wc/building-rollup';
 
@@ -24,6 +25,15 @@ export default merge(baseConfig, {
   // if you use createSpaConfig, you can use your index.html as entrypoint,
   // any <script type="module"> inside will be bundled by rollup
   input: './index.html',
+  plugins: [
+    cpy({
+      targets: [
+        { src: 'manifest.json', dest: './dist' },
+        { src: 'assets/**/*', dest: './dist/assets' },
+      ],
+      flatten: false,
+    })
+  ]
 
   // alternatively, you can use your JS as entrypoint for rollup and
   // optionally set a HTML template manually
